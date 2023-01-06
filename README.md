@@ -1,7 +1,7 @@
 # CATMicrobiome
 
 ## General info
-The CAT function performs conditional association test for the list of the taxa provided.
+CATMicrobiome package performs conditional association test for the list of the taxa provided. The main function of the package is CAT.
 	
 ## Usage
 
@@ -37,6 +37,11 @@ Shi Y, Zhang L, Do KA, Jenq RR, Peterson CB (2022) _CAT: a conditional associati
 ## Examples
 
 ```
+
+library(devtools)
+install_github("YushuShi/CATMicrobiome")
+library(CATMicrobiome) 
+ 
 # Example 1 with PERMANOVA
 otuPath<-system.file("extdata","GopalakrishnanOTUtable.csv", 
 package = "CATMicrobiome")
