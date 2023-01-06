@@ -6,7 +6,7 @@ CATMicrobiome package performs conditional association test for the list of the 
 ## Usage
 
 ```
-\usage{CAT(testList,otutable,taxonomy,
+CAT(testList,otutable,taxonomy,
 metric="Weighted UniFrac",metaData,
 outcomeVar,tree=NULL,method="PERMANOVA",
 nperm=9999,parallel=TRUE,nCore=2)
