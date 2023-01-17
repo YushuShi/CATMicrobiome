@@ -34,6 +34,10 @@ CAT implements a novel permutation-based conditional association test, which can
 ## Reference
 Shi Y, Zhang L, Do KA, Jenq RR, Peterson CB (2022) _CAT: a conditional association test for microbiome data using a permutation-based approach_
 
+## Note
+
+If the CAT function gives the warning that the proportional test may not be stable or unreliable due to small counts, please consider increasing the permutation number.
+
 ## Examples
 
 ```
