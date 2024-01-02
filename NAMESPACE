@@ -1,0 +1,6 @@
+import(ape)
+import(GUniFrac)
+import(vegan)import(foreach)import(doParallel)import(MiRKAT)
+importFrom("stats", "as.dist", "prop.test")
+export(CAT)
+
