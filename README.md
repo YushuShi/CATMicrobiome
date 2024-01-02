@@ -62,6 +62,7 @@ install_missing_packages(packages_to_check)
 
 library(devtools)
 install_github("YushuShi/CATMicrobiome")
+library(ape)
 library(CATMicrobiome) 
  
 # Example 1 with PERMANOVA
