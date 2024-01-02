@@ -7,6 +7,7 @@ Author: Yushu Shi
 Maintainer: Yushu Shi <shiyushu2006@gmail.com>
 Description: CAT implements a novel permutation-based conditional association test, which can account for other features and phylogenetic relatedness when testing the association between a feature and an outcome. CAT adopts a leave-out method, measuring the importance of a feature in predicting the outcome by removing that feature from the data and quantifying how the association with the outcome is weakened through bootstrap. By pairing with PERMANOVA and MiRKAT-based methods, the package allows association testing for continuous, binary, and survival outcomes.
 License: GPL (>= 2)
-Depends: R (>= 3.5.0), ape, GUniFrac, vegan, foreach, doParallel, MiRKAT
+Imports: ape, GUniFrac, vegan, foreach, doParallel, MiRKAT
+Depends: R (>= 3.5.0) 
 NeedsCompilation: no
 Repository: CRAN
