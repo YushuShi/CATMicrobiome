@@ -48,6 +48,17 @@ If the CAT function gives the warning that the proportional test may not be stab
 ## Examples
 
 ```
+install_missing_packages <- function(packages) {
+  for (pkg in packages) {
+    if (!requireNamespace(pkg, quietly = TRUE)) {
+      install.packages(pkg)
+    }
+  }
+}
+
+packages_to_check <- c("ape", "GUniFrac", "vegan", "foreach", "doParallel", "MiRKAT")
+
+install_missing_packages(packages_to_check)
 
 library(devtools)
 install_github("YushuShi/CATMicrobiome")
