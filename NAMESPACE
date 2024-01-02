@@ -1,4 +1,4 @@
-importFrom("ape","read.tree")
+
 import(GUniFrac)
 import(vegan)
 import(foreach)
