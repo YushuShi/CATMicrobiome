@@ -81,7 +81,7 @@ CAT<-function(testList,otutable,taxonomy,metric="Weighted UniFrac",metaData,outc
           distMatBS[i,j]<-distMatMatrix[indi[i],indi[j]]
         }
       }
-      if(table(outcomeBS)!=length(outcomeBS)){
+      if(length(unique(outcomeBS)) > 1){
           suppressMessages(resultBS<-adonis(distMatBS~outcomeBS,permutations = 1)$aov.tab)
           origBS[BSiter]<-resultBS$R2[1]
         }
