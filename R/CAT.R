@@ -5,6 +5,7 @@
 # source("paraCATMiRKAT.R")
 
 empiricalP<-function(val1000){
+  val1000<-val1000[!is.na(val1000)]
   p.value<-sum(val1000>0)/length(val1000)
   p.value
 }
