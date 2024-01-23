@@ -17,8 +17,10 @@ paraCAT<-function(testIter,testList,otutable,taxonomy,metric,metaData,outcomeVar
         distMatBS[i,j]<-distMatMatrix[indi[i],indi[j]]
       }
     }
-    suppressMessages(resultBS<-adonis(distMatBS~outcomeBS,permutations = 1)$aov.tab)
-    taxaBS[BSiter]<-resultBS$R2[1]
+    if(table(outcomeBS)!=length(outcomeBS)){
+      suppressMessages(resultBS<-adonis(distMatBS~outcomeBS,permutations = 1)$aov.tab)
+      taxaBS[BSiter]<-resultBS$R2[1]
+      }
   }
   BSpvalue<-empiricalP(taxaBS-origBS) # supposed to be something less than 0
   c(origR2,taxaR2,BSpvalue)
