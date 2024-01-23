@@ -17,7 +17,7 @@ paraCAT<-function(testIter,testList,otutable,taxonomy,metric,metaData,outcomeVar
         distMatBS[i,j]<-distMatMatrix[indi[i],indi[j]]
       }
     }
-    if(table(outcomeBS)!=length(outcomeBS)){
+    if(length(unique(outcomeBS)) > 1){
       suppressMessages(resultBS<-adonis(distMatBS~outcomeBS,permutations = 1)$aov.tab)
       taxaBS[BSiter]<-resultBS$R2[1]
       }
