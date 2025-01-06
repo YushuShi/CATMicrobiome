@@ -1,27 +1,17 @@
-paraCAT<-function(testIter,testList,otutable,taxonomy,metric,metaData,outcomeVar,numBS,origR2,origBS,tree){
-  otutemp<-otutable
-  otuUnder<-rownames(otutable)[apply(taxonomy, 1, function(x) sum(any(x %in% testList[testIter])))>0] 
-  otutemp[otuUnder,]<-0
-  distMat<-compDist(otutemp,metric,tree)
-  suppressMessages(distResult<-adonis(distMat~metaData[,outcomeVar],permutations = 1)$aov.tab)
-  taxaR2<-distResult$R2[1]
-  taxaBS<-rep(NA,numBS)
-  for(BSiter in 1:numBS){
-    set.seed(BSiter)
-    indi<-sample(1:nrow(metaData),nrow(metaData),replace = TRUE)
-    outcomeBS<-metaData[indi,outcomeVar]
-    distMatBS<-as.matrix(distMat)
-    distMatMatrix<-as.matrix(distMat)
-    for(i in 1:length(outcomeBS)){
-      for(j in 1:length(outcomeBS)){
-        distMatBS[i,j]<-distMatMatrix[indi[i],indi[j]]
-      }
+paraCAT<-function(testTarget,otutable,taxonomy,metric,metaData,outcomeVar,adjVar,numPerm,origR2,tree){
+  taxaR2<-rep(NA,numPerm)
+  for(permIter in 1:numPerm){
+    set.seed(permIter)
+    otutable2<-otutable
+    temp<-rownames(otutable2)[apply(taxonomy, 1, function(x) sum(any(x %in% testTarget)))>0]
+    otutable2[temp,]<-otutable2[temp,sample(1:ncol(otutable2),ncol(otutable2),replace = FALSE)]
+    distMat2<-compDist(otutable2,metric,tree)
+    if(is.null(adjVar)){
+      taxaR2[permIter]<-adonis2(distMat2~metaData[,outcomeVar],permutations = 1)$R2[1]
+    }else{
+      newData<-metaData[,c(adjVar,outcomeVar)]
+      taxaR2[permIter]<-adonis2(distMat2~.,data=newData,permutations = length(adjVar)+1)$R2[length(adjVar)+1]
     }
-    if(length(unique(outcomeBS)) > 1){
-      suppressMessages(resultBS<-adonis(distMatBS~outcomeBS,permutations = 1)$aov.tab)
-      taxaBS[BSiter]<-resultBS$R2[1]
-      }
   }
-  BSpvalue<-empiricalP(taxaBS-origBS) # supposed to be something less than 0
-  c(origR2,taxaR2,BSpvalue)
+  sum(origR2<taxaR2)/numPerm
 }
