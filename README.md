@@ -15,8 +15,9 @@ install_github("YushuShi/CATMicrobiome")
 ```
 CAT(testList,otutable,taxonomy,
 metric="Weighted UniFrac",metaData,
-outcomeVar,tree=NULL,method="PERMANOVA",
-numBS=1000,parallel=TRUE,nCore=2)
+outcomeVar,tree=NULL,adjVar=NULL,
+method="PERMANOVA",
+numPerm=1000,parallel=TRUE,nCore=2)
 ```
 
 * **testList** A list of taxa to be tested.
@@ -26,8 +27,9 @@ numBS=1000,parallel=TRUE,nCore=2)
 * **metaData** The dataset containing the information of the study objects. Row names must match the column names in the OTU table.
 * **outcomeVar** The outcome variable in metaData. If it is a vector of two elements, the function will consider the outcome is time-to-event (for now only compatible with MiRKAT) and use the first element in the list as the time variable and the second element in the list as the event indicator. For now it only accepts right censored data.
 * **tree** An object of the class "tree", which is needed for calculating weighted and unweighted UniFrac distances.
+* **adjVar** A list of variables to be adjusted for in the association test. The default is NULL, which means no adjustment variabl
 * **method** Can be "PERMANOVA" or "MiRKAT". The default choice is "PERMANOVA".
-* **numBS** Number of bootstrap samples used in the test. The default is 1000
+* **numBS** Number of permutations used in the test. The default is 1000
 * **parallel** Whether or not use parallel computing.
 * **nCore** How many cores to use for parallel computing. This is only relevant when parallel=TRUE.
 
@@ -36,10 +38,10 @@ A vector of p-values for the taxa list given.
 
 ## Details
 
-CAT implements a novel permutation-based conditional association test, which can account for other features and phylogenetic relatedness when testing the association between a feature and an outcome. CAT adopts a leave-out method, measuring the importance of a feature in predicting the outcome by removing that feature from the data and quantifying how the association with the outcome is weakened. By pairing with PERMANOVA and MiRKAT-based methods, the package allows association testing for continuous, binary, and survival outcomes.
+CAT implements a novel permutation-based conditional association test, which can account for other features and phylogenetic relatedness when testing the association between a feature and an outcome. CAT measures the importance of a feature in predicting the outcome by removing that feature from the data and quantifies how the association with the outcome is weakened. By pairing with PERMANOVA and MiRKAT-based methods, the package allows association testing for continuous, binary, and survival outcomes.
 
 ## Reference
-Shi Y, Zhang L, Do KA, Jenq RR, Peterson CB (2024) _CAT: a conditional association test for microbiome data using a permutation-based approach_
+Shi Y, Zhang L, Do KA, Jenq RR, Peterson CB (2025) _CAT: a conditional association test for microbiome data using a permutation-based approach_
 
 ## Note
 
@@ -92,6 +94,14 @@ testResult<-CAT(testList,otutable,taxonomy,
 metric="Weighted UniFrac",metaData,outcomeVar="ContOutcomes",
 tree,parallel=TRUE,nCore=2)
 testResult
+
+metaData$x1<-rbinom(nrow(metaData),1,0.5)
+metaData$x2<-rnorm(nrow(metaData))
+testResult<-CAT(testList,otutable,taxonomy,
+metric="Weighted UniFrac",metaData,outcomeVar="ContOutcomes",
+tree,adjVar=c("x1","x2"),parallel=TRUE,nCore=2)
+testResult
+
 testResult<-CAT(testList,otutable,taxonomy,
 metric="Weighted UniFrac",metaData,outcomeVar="ContOutcomes",
 tree,parallel=FALSE)
@@ -131,10 +141,18 @@ testList<-c("Clostridia",
             "Pseudomonadales",
             "Pseudomonas")
 
-
 testResult<-CAT(testList,otutable,taxonomy,
 metric=c("bray","Unweighted UniFrac"),metaData,
 outcomeVar=c("OS.Months","event"),tree=tree,
+method="MiRKAT",parallel=TRUE,nCore=2)
+testResult
+
+metaData$x1<-rbinom(nrow(metaData),1,0.5)
+metaData$x2<-rnorm(nrow(metaData))
+testResult<-CAT(testList,otutable,taxonomy,
+metric=c("bray","Unweighted UniFrac"),metaData,
+outcomeVar=c("OS.Months","event"),tree=tree,
+adjVar=c("x1","x2"),
 method="MiRKAT",parallel=TRUE,nCore=2)
 testResult
 
