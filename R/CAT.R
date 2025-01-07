@@ -1,8 +1,8 @@
-source("compDist.R")
-source("MiRKATR2.R")
-source("compDistList.R")
-source("paraCAT.R")
-source("paraCATMiRKAT.R")
+# source("compDist.R")
+# source("MiRKATR2.R")
+# source("compDistList.R")
+# source("paraCAT.R")
+# source("paraCATMiRKAT.R")
 
 CAT<-function(testList,otutable,taxonomy,metric="Weighted UniFrac",metaData,outcomeVar,tree=NULL,adjVar=NULL,method="PERMANOVA",numPerm=1000, parallel=TRUE,nCore=2){
   if(is.null(tree)){
